@@ -1,0 +1,31 @@
+{{ config(materialized='table') }}
+
+select
+	concat(marketing_company_code, flight_number, '-' , to_char(departure_time::timestamp, 'YYYYMMDD-HHMI')) as flight_id,
+	concat(marketing_company_code, flight_number) as flight_code,
+	origin_city as departure_city, 
+	origin_airport,
+	origin_country,
+	departure_time::timestamp,
+	arrival_time::timestamp,
+	destination_name,
+	destination_airport,
+	destination_country,
+	flight_number,
+	price_raw as total_price,
+	time_delta_days,
+	destination_city,
+	is_smallest_stops,
+	duration_in_minutes,
+	company_operation_type,
+	marketing_company_code,
+	marketing_company_name,
+	operating_company_code,
+	operating_company_name,
+	"isSelfTransfer",
+	"isChangeAllowed",
+	"isCancellationAllowed",
+	"isPartiallyChangeable",
+	"isPartiallyRefundable",
+	"isProtectedSelfTransfer"
+from {{ source('sources', 'src_skyscanner_flights') }}

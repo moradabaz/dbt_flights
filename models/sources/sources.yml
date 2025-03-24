@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: sources
+    description: "Esquema con los datos de origen sin modificar"
+    schema: sources  # Asegúrate de que coincide con tu esquema en PostgreSQL
+    tables:
+      - name: src_skyscanner_flights
+        description: "Datos originales de Skyscanner"
+      - name: src_amadeus_flights
+        description: "Datos originales de Amadeus"
+      - name: src_delayed_predictions_flights
+        description: "Datos de predicción de retrasos"

@@ -1,0 +1,30 @@
+name: 'dbt_flights'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_flights'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  dbt_flights:
+    sources:
+      +schema: sources  # Esquema para las fuentes
+      +materialized: view
+
+    staging:
+      +schema: staging  # Esquema para staging
+      +materialized: table  # Guarda en tabla en vez de vista
+
+    transformed:
+      +schema: transformed  # Esquema para transformed
+      +materialized: table
+
+    reports:
+      +schema: reports  # Esquema para reports
+      +materialized: view  # Puedes cambiar a 'table' si prefieres

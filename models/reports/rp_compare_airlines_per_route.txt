@@ -1,0 +1,11 @@
+-- {{ config(materialized='view') }}
+
+
+-- SELECT 
+--     origin,
+--     destination,
+--     marketing_company_name AS airline,
+--     AVG(total_price) AS avg_price
+-- FROM {{ ref('tr_flights') }}
+-- GROUP BY origin, destination, marketing_company_name
+-- ORDER BY origin, destination, avg_price

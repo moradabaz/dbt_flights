@@ -1,0 +1,24 @@
+-- {{ config(materialized='view') }}
+
+
+-- SELECT 
+--     origin,
+--     destination,
+--     COUNT(*) AS total_flights,
+--     SUM(
+--         CASE 
+--             WHEN delay_resuylt IN ('BETWEEN_60_AND_120_MINUTES', 'OVER_120_MINUTES_OR_CANCELLED') 
+--             THEN 1 ELSE 0 
+--         END
+--     ) AS delayed_flights,
+--     ROUND(
+--         SUM(
+--             CASE 
+--                 WHEN delay_result IN ('BETWEEN_60_AND_120_MINUTES', 'OVER_120_MINUTES_OR_CANCELLED') 
+--                 THEN 1 ELSE 0 
+--             END
+--         )::DECIMAL / COUNT(*) * 100, 2
+--     ) AS delay_percentage
+-- FROM {{ ref('stg_delayed_prediction_flights') }}
+-- GROUP BY origin, destination
+-- ORDER BY delay_percentage DESC

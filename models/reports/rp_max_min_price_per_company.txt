@@ -1,0 +1,12 @@
+{{ config(materialized='view') }}
+
+SELECT 
+    marketing_company_name AS airline,
+    origin,
+    destination,
+    MIN(total_price) AS min_price,
+    MAX(total_price) AS max_price,
+    COUNT(*) AS total_flights
+FROM {{ ref('tr_flights') }}
+GROUP BY marketing_company_name, origin, destination
+ORDER BY min_price ASC
