@@ -142,8 +142,6 @@ SELECT
 FROM {{ ref('fact_flights') }} f
 JOIN {{ ref('dim_flight_attributes') }} dfa
     ON f.flight_code = dfa.flight_code -- Joining by natural key because dim_flight_attributes granularity is flight_code
-    -- Or if using the surrogate key: ON f.flight_code = dfa.flight_code (Fact needs the key or join on natural key)
-    -- In our model we didn't explicitly add flight_attributes_key to fact, so we join on flight_code.
 GROUP BY 
     dfa.is_self_transfer;
 ```
@@ -155,33 +153,6 @@ GROUP BY
 | false | 8500 | 250.00 | 240.5 |
 | true | 1200 | 180.00 | 320.0 |
 
-## 4. Blacklisted Airline Exposure
-Monitor how many flights are being sold that are operated by airlines blacklisted in the EU.
-
-```sql
-SELECT 
-    da.airline_name,
-    f.source_channel,
-    COUNT(*) as risky_flights
-FROM {{ ref('fact_flights') }} f
-JOIN {{ ref('dim_flight_attributes') }} dfa 
-    ON f.flight_code = dfa.flight_code
-JOIN {{ ref('dim_airline') }} da 
-    ON f.airline_key = da.airline_key
-WHERE 
-    dfa.blacklisted_in_eu = true
-GROUP BY 
-    da.airline_name, 
-    f.source_channel;
-```
-
-**Example Result:**
-
-| airline_name | source_channel | risky_flights |
-| :--- | :--- | :--- |
-| Sketchy Air | amadeus | 45 |
-| NoSafety Jets | skyscanner | 12 |
-| Banned Wings | amadeus | 8 |
 
 
 
