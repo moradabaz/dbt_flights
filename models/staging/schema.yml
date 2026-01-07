@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_amadeus_flights
+    description: "Staging model for Amadeus flight data"
+    columns:
+      - name: flight_id
+        description: "Unique identifier for the flight"
+        tests:
+          - unique
+          - not_null
+      - name: total_price
+        description: "Total price of the flight"
+        tests:
+          - not_null
+      - name: currency
+        description: "Currency of the total price"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['EUR', 'USD']
+
+  - name: stg_delayed_prediction_flights
+    description: "Staging model for flight delay predictions"
+    columns:
+      - name: flight_id
+        description: "Unique identifier for the flight"
+        tests:
+          - not_null
+      - name: carrier
+        description: "Flight carrier code"
+        tests:
+          - not_null
+      - name: delay_result
+        description: "Result of the delay prediction"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['LESS_THAN_30_MINUTES', 'BETWEEN_30_AND_60_MINUTES', 'BETWEEN_60_AND_120_MINUTES', 'OVER_120_MINUTES_OR_CANCELLED']
+
+  - name: stg_skyscanner_flights
+    description: "Staging model for Skyscanner flight data"
+    columns:
+      - name: flight_id
+        description: "Unique identifier for the flight"
+        tests:
+          - unique
+          - not_null
+      - name: marketing_company_code
+        description: "Marketing airline code"
+        tests:
+          - not_null
+      - name: total_price
+        description: "Total price of the flight"
+        tests:
+          - not_null
