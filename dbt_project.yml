@@ -23,8 +23,8 @@ models:
 
     transformed:
       +schema: transformed  # Esquema para transformed
-      +materialized: table
+      +materialized: view
 
-    reports:
-      +schema: reports  # Esquema para reports
-      +materialized: view  # Puedes cambiar a 'table' si prefieres
+    marts:
+      +schema: marts  # Esquema para reports
+      +materialized: table  # Puedes cambiar a 'table' si prefieres
